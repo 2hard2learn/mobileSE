@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 const initialState = {
   // profile:[]
   profile:{
-    id:'',firstname:'',lastname:'',studentID:'',username:''
+    
   }
 }
  
@@ -17,8 +17,10 @@ const authSlice = createSlice({
       state.profile.id = action.payload.id
       state.profile.firstname = action.payload.firstname
       state.profile.lastname = action.payload.lastname
-      state.profile.studentID = action.payload.studentID
+      state.profile.role = action.payload.role
       state.profile.username = action.payload.username
+      state.profile.firstVehicleId = action.payload.firstVehicleId
+      state.profile.lastVehicleId = action.payload.lastVehicleId
       //console.log(state)
     }
   }

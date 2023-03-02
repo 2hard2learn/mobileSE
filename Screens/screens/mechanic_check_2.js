@@ -5,16 +5,39 @@ import Constants from 'expo-constants';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { useSelector } from 'react-redux'
+
+import * as WorkModel from '../../firebase/workModel'
+
+export const Mechanic_Check_2 = ({navigation,route}) => {
+  const Info = useSelector((state) => state.auths)
+
+  const mechanic_check_success = (data) => {
+
+    navigation.navigate({name:'Mechanic_Check_1',params:data})
+  }
+  const mechanic_check_unsuccess = (msg) => {
+    Alert.alert(msg)
+  }
+
+  const goMechanicCheckPage = (username) => {
+    WorkModel.Mechanic_Check_getWorksByUsername(username,mechanic_check_success,mechanic_check_unsuccess)
+  }
 
 
+  let workInfo = route.params
 
-export const Mechanic_Work = ({navigation}) => {
   return (
     <View style={{flex:1,justifyContent:'space-between',paddingTop: Constants.statusBarHeight}}>
 
       <View style={{height:80,backgroundColor:'#05C3FF',alignItems:'center',flexDirection:'row'}}>
-        <TouchableOpacity style={{width:50,height:50,backgroundColor:'#FFA133',marginLeft:10,borderRadius:10,justifyContent:'center',alignItems:'center'}}>
-          <Ionicons name="arrow-back" size={24} color="white" />
+        <TouchableOpacity style={{width:50,height:50,backgroundColor:'#FFA133',marginLeft:10,borderRadius:10,justifyContent:'center',alignItems:'center'}}
+            onPress={()=>{
+              goMechanicCheckPage(Info.profile.username)
+            }}
+            
+          >
+            <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
         <Text style={{borderWidth:0,fontSize:25,color:'white',marginLeft:20,fontFamily:'Sound-Rounded'}}>ตรวจเช็คสภาพรถยนต์</Text>
       </View>
@@ -23,7 +46,7 @@ export const Mechanic_Work = ({navigation}) => {
        
       <View style={{width:'100%',borderWidth:0,justifyContent:'center',alignItems:'center'}}>
         <View style={{borderWidth:0,width:'90%',height:60,justifyContent:'center',borderTopLeftRadius:20,borderTopRightRadius:20,backgroundColor:'#05C3FF'}}>
-          <Text style={{borderWidth:0,fontSize:25,color:'white',marginLeft:20,fontFamily:'Sound-Rounded'}}>กท-3333</Text>
+          <Text style={{borderWidth:0,fontSize:25,color:'white',marginLeft:20,fontFamily:'Sound-Rounded'}}>{workInfo.firstVehicleId+'-'+workInfo.lastVehicleId}</Text>
         </View>
         <View style={{borderWidth:0,width:'90%',height:440,justifyContent:'center',alignItems:'center',borderBottomLeftRadius:20,borderBottomRightRadius:20,backgroundColor:'#69DBFF'}}>
 
@@ -45,10 +68,14 @@ export const Mechanic_Work = ({navigation}) => {
       </View>
 
 
-      <View style={{width:360,height:50,borderWidth:0,backgroundColor:'#69DBFF',justifyContent:'center',alignItems:'center',borderTopLeftRadius:50,borderTopRightRadius:50}}>
-        <View style={{width:80,height:80,borderWidth:1,backgroundColor:'#37CFFF',borderRadius:40,marginBottom:50,justifyContent:'center',alignItems:'center',borderColor:'#89E3FF'}}>
+      <View style={{width:'100%',height:50,borderWidth:0,backgroundColor:'#69DBFF',justifyContent:'center',alignItems:'center',borderTopLeftRadius:50,borderTopRightRadius:50}}>
+        <TouchableOpacity activeOpacity={1} style={{width:80,height:80,borderWidth:1,backgroundColor:'#37CFFF',borderRadius:40,marginBottom:50,justifyContent:'center',alignItems:'center',borderColor:'#89E3FF'}}
+          onPress={()=>{
+            navigation.navigate({name:'Home'})
+          }}
+        >
           <Ionicons name="home" size={30} color="white" />
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

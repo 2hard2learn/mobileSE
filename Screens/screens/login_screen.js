@@ -30,12 +30,16 @@ export const LoginScreen = ({navigation}) => {
     let profile_state = {
       'id': doc.id,
       'username': doc.data().username,
-      'role': doc.data().role
+      'firstname': doc.data().firstname,
+      'lastname': doc.data().lastname,
+      'role': doc.data().role,
+      'firstVehicleId': doc.data().firstVehicleId,
+      'lastVehicleId': doc.data().lastVehicleId,
     }
     dispatch(addProfile(profile_state))
 
     if(doc.data().role='customer'){
-      navigation.navigate({name:'Home',params:doc.data()})
+      navigation.navigate({name:'Home'})
     }
    
 
