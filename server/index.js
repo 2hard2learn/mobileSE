@@ -64,6 +64,8 @@ try{
 }
 })
 
+
+
 app.post('/payment-sheet-setup-intent',async(req,res)=>{
     const{
         email=`test${Math.floor(Math.random() * 9999) + 1}@domain.com`,
@@ -74,7 +76,10 @@ app.post('/payment-sheet-setup-intent',async(req,res)=>{
         typescript:true,
     })
 
-    const customer=await stripe.customers.create(small)
+    const customer=await stripe.customers.create({
+        email
+        // email:'test1234@domain.com'
+    })
     const ephemeralKey=await stripe.ephemeralKeys.create(
         {customer:customer.id},
         {apiVersion:"2022-11-15"},
@@ -84,8 +89,9 @@ app.post('/payment-sheet-setup-intent',async(req,res)=>{
     })
     return res.json({
         setupIntent:setupIntent.client_secret,
+
         ephemeralKey:ephemeralKey.secret,
-        customer:customer.id,
+        customer:'customer.id',
 
     })
 })
@@ -107,15 +113,21 @@ app.post('/payment-sheet',async(req,res)=>{
     const paymentIntent=await stripe.paymentIntents.create({
         amount:5099,
         currency:'thb',
-        customer:customer.id,
+        customer:'pm_1Mh9myCZp5yHCVLLkwhYOFCt',
+        setup_future_usage:'on_session'
+
+        // customer:customer.id,
+        // // customer:'{{CUSTOMER_ID}}',
+        // // payment_method:'{{PAYMENT_METHOD_ID}}',
         // setup_future_usage:'off_session',
-        payment_method_types:[
-            'card'
-        ],
+        // // payment_method_types:[
+        // //     'card'
+        // // ],
         // automatic_payment_methods:{
         //     enabled:true
         // }
     })
+
     return res.json({
         paymentIntent:paymentIntent.client_secret,
         ephemeralKey:ephemeralKey.secret,
@@ -124,6 +136,7 @@ app.post('/payment-sheet',async(req,res)=>{
     })
 
 })
+
 
 
 
