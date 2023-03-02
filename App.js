@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { StripeApp } from './src/StripeApp';
+import  StripeApp  from './src/StripeApp';
+import React from "react"
 import { StripeProvider } from '@stripe/stripe-react-native';
 export default function App() {
   return (
