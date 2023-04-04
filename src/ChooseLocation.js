@@ -1,18 +1,17 @@
 //import liraries
 import React, { Component, useState, useRef } from 'react';
-import { View, Text, StyleSheet, ScrollView, VirtualizedList, Linking } from 'react-native';
-
+import { View, Text, StyleSheet, ScrollView, VirtualizedList, Linking, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 //components
 import AddressPickup from './components/AddressPickup';
 import CustomBtn from './components/CustomBtn';
 import { showError, showSuccess } from './helper/helpFunction';
-import AddLocation from './AddLocation';
 
 // create a component
 const ChooseLocation = (props) => {
     const navigation = useNavigation()
 
+    const [navCur, setNavCur] = useState(true);
     const [state, setState] = useState({
         pickupCords: {},
         destinationCords: {}
@@ -60,7 +59,12 @@ const ChooseLocation = (props) => {
         navigation.navigate('delLocation')
     }
 
+    const onCancel = () => {
+        setNavCur(true)
+    }
+
     const navigateCur = () => {
+        setNavCur(false);
         const isValidDestination = checkValidDestination()
         if(isValidDestination) {
             let lat = destinationCords.latitude
@@ -98,10 +102,17 @@ const ChooseLocation = (props) => {
                 keyboardShouldPersistTaps='handled'
                 style={{backgroundColor: 'white', flex: 1, padding: 24}}
             >
-                <AddressPickup
+                {navCur ? (
+                    <AddressPickup
                     placeholderText="Enter Pickup Location"
                     fetchAddress={fetchAddressCords}
-                />
+                    />
+                ) : <TouchableOpacity
+                        style = {styles.btnStyle}
+                        onPress={onCancel}
+                    >
+                        <Text>Cancel</Text>
+                    </TouchableOpacity>}
                 <View style = {{marginBottom: 16}} />
                 <AddressPickup 
                     placeholderText="Enter Destination Location"
@@ -120,13 +131,14 @@ const ChooseLocation = (props) => {
                 <View style={{flexDirection:'row'}}>
                 <CustomBtn 
                     btnText="Add"
-                    btnStyle={{marginTop: 24,width:'50%'}}
+                    btnStyle={{marginTop: 24,width:'49%'}}
                     onPress={onAdd}
                 />
+                <View style={{marginLeft:5}}></View>
                 <CustomBtn 
                     btnText="Delete"
-                    btnStyle={{marginTop: 24,width:'50%'}}
-                    onPress={onAdd}
+                    btnStyle={{marginTop: 24,width:'49%'}}
+                    onPress={onDel}
                 />
                 </View>
             </ScrollView>
@@ -139,6 +151,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    btnStyle: {
+        height: 48,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        paddingHorizontal: 16,
+        borderWidth: 1,
+        borderRadius: 15,
+        borderColor:'gray',
+        opacity: .5
+    }
 });
 
 //make this component available to the app

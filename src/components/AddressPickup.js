@@ -132,8 +132,8 @@ const AddressPickup = ({placeholderText,fetchAddress}) => {
                 />
             ))} */}
             
-            <CustomBtn onPress={onTest} btnText="test button"/>
-            <CustomBtn onPress={onDoneee} btnText="output"/>
+            {/* <CustomBtn onPress={onTest} btnText="test button"/>
+            <CustomBtn onPress={onDoneee} btnText="output"/> */}
         </View>
     );
 };

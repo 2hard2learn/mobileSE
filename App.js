@@ -6,6 +6,7 @@ import Home from './src/Home';
 import ChooseLocation from './src/ChooseLocation';
 import AddLocation from './src/AddLocation';
 import MapScreen from './src/MapScreen';
+import DelLocation from './src/DelLocation';
 
 import FlashMessage from 'react-native-flash-message';
 
@@ -17,8 +18,10 @@ function App() {
       <Stack.Navigator>
         <Stack.Screen name="home" component = {Home} />
         <Stack.Screen name="chooseLocation" component={ChooseLocation} />
+        <Stack.Screen name="delLocation" component={DelLocation} />
         <Stack.Screen name="addLocation" component={AddLocation} />
         <Stack.Screen name="mapScreen" component={MapScreen} />
+        
       </Stack.Navigator>
       <FlashMessage
         position='top'

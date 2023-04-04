@@ -1,5 +1,6 @@
 import react, {useState, useRef, useEffect} from "react";
-import { View, Text, StyleSheet, SafeAreaView, Dimensions, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, Linking, Dimensions, TouchableOpacity, Image, Alert } from "react-native";
+import {getDistance} from 'geolib';
 import MapView, { Marker,AnimatedRegion,PROVIDER_GOOGLE} from 'react-native-maps';
 import { GOOGLE_MAPS_APIKEY } from "./constants/googleMapKey";
 import MapViewDirections from "react-native-maps-directions";
@@ -16,18 +17,21 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const Home = ({navigation}) => {
     const [show, setShow] = useState(false);
+    const [double, setDouble] = useState(false);
     const [namePlace, setNamePlace] = useState([]);
     const [locateLatitude, setLocateLatitude] = useState([]);
     const [locateLongitude, setLocateLongitude] = useState([]);
+    const [tmpDouble, setTmpDouble] = useState('');
+    const [distance, setDistance] = useState(0);
 
     const [state, setState] = useState({
         startingCords: {
-            latitude: 13.361143,
-            longitude: 100.984673,
+            // latitude: 13.361143,
+            // longitude: 100.984673,
         },
         destinationCords: {
-            latitude: 12.95006,
-            longitude: 100.89091,
+            // latitude: 12.95006,
+            // longitude: 100.89091,
         },
     })
 
@@ -51,14 +55,45 @@ const Home = ({navigation}) => {
     const mapRef = useRef()
     const {startingCords, destinationCords} = state
 
-    const onTest = () => {
-        console.log(namePlace)
-        console.log(locateLatitude)
-        console.log(locateLongitude)
+    const onShow = () => {
+        // console.log(namePlace)
+        // console.log(locateLatitude)
+        // console.log(locateLongitude)
+        setShow(false)
     }
+
+    const doubleClick = (index) => {
+        let name = namePlace[index];
+        let lat = locateLatitude[index];
+        let lng = locateLongitude[index];
+        if (name == tmpDouble) {
+            Alert.alert("Confirmation","Wanna go?",
+            [
+            {
+                text: "Cancel",
+                style: "cancel"
+            },
+            {
+                text: "LET GO",
+                onPress: () => {
+                    const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+                    Linking.openURL(url);
+                },
+            },
+            ],
+            { cancelable: false}
+            );
+            setDouble(false);
+            // console.log("go get double click")
+        } else {
+            // console.log("keep new one")
+            setTmpDouble(name)
+        }
+    };
 
     const onPressLocation = () => {
         navigation.navigate('chooseLocation',{getCordinates: fetchValues})
+        setShow(false)
     }
 
     const fetchValues = (data) => {
@@ -73,6 +108,7 @@ const Home = ({navigation}) => {
             },
         })
         console.log("data===>", data)
+        setShow(true)
     }
 
     return (
@@ -112,7 +148,14 @@ const Home = ({navigation}) => {
                                         left: 30,
                                         top: 100,
                                     }
-                                })
+                                });
+                                const distance = getDistance(
+                                    { latitude: startingCords.latitude, longitude: startingCords.longitude},
+                                    { latitude: destinationCords.latitude, longitude: destinationCords.longitude}
+                                );
+                                // console.log('Distance:' ,distance / 1000, 'km');
+                                const distanceInKm = distance / 1000;
+                                setDistance(distanceInKm.toFixed(2));
                             }}
                         />
                     </MapView>
@@ -124,10 +167,10 @@ const Home = ({navigation}) => {
                         showsUserLocation={true}
                         followsUserLocation={true}
                         initialRegion={{
-                            latitude: startingCords.latitude || 13.361143,
-                            longitude: startingCords.longitude || 100.984673,
-                            latitudeDelta: 0.03,
-                            longitudeDelta: 0.03,
+                            latitude: startingCords.latitude || 13.121535126979689,
+                            longitude: startingCords.longitude || 100.91912181391285,
+                            latitudeDelta: 0.08,
+                            longitudeDelta: 0.08,
                         }}
                     >
                         {locateLatitude.map((latitude, index) => (
@@ -138,26 +181,38 @@ const Home = ({navigation}) => {
                                     longitude: locateLongitude[index],
                                 }}
                                 title={namePlace[index]}
+                                // description="stop crash"
                                 pinColor={"green"}
+                                onPress={() => {
+                                    doubleClick(index)
+                                }}
                             />
                         ))}
                     </MapView>}
                 
             </View>
             <View style= {styles.bottomCard}>
-                    <Text>Where are you going..?</Text>
+                <View style = {{flexDirection:'row',flexWrap:'wrap-reverse'}}>
+                    {show ? (
+                        <Text style={{height:30, marginTop:16,fontSize:18}}> {distance} km</Text>
+                    ) : <Text style={{height:30, marginTop:16}}>Choose location to navigate</Text>
+                    }
+                    {show ? (
+                        <TouchableOpacity
+                        style={styles.onMinimap}
+                        onPress={onShow}
+                    >
+                        <Text style={{color:'gray'}}>Show all</Text>
+                    </TouchableOpacity>
+                    ) : null}
+                </View>
                     <TouchableOpacity 
                         style={styles.inputStyle}
                         onPress={onPressLocation}
                     >
                         <Text>Choose your location</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.inputStyle}
-                        onPress={onTest}
-                    >
-                        <Text>Test</Text>
-                    </TouchableOpacity>
+                    
             </View>
         </View>
     )
@@ -182,6 +237,17 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         alignItems: 'center',
         height: 48,
+        justifyContent: 'center',
+        marginTop: 0,
+    },
+    onMinimap: {
+        backgroundColor: 'white',
+        borderRadius: 2,
+        borderWidth: 1,
+        alignItems: 'center',
+        height: 30,
+        width: 70,
+        marginLeft: 70,
         justifyContent: 'center',
         marginTop: 16,
     }

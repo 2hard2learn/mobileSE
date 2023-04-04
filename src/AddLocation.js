@@ -38,6 +38,10 @@ const AddLocation = () => {
             showError('Please enter name')
             return false
         }
+        if(!newLocation){
+            showError('Please find your location first')
+            return false
+        }
         return true
     }
 
@@ -45,9 +49,9 @@ const AddLocation = () => {
         const isValid = checkValid()
         console.log('is valid...?',isValid)
         if (isValid){
-            // create()
-            showSuccess('Complete')
-            navigation.navigate('chooseLocation');
+            create();
+            showSuccess('Complete');
+            navigation.navigate('home');
         }
     };
 
@@ -76,9 +80,9 @@ const AddLocation = () => {
                     style={styles.addLocationButton}
                 ></TextInput>
                 <CustomBtn 
-                    btnText="Find your location"
+                    btnText="Done"
                     btnStyle={{marginTop: 24}}
-                    onPress={onFind}
+                    onPress={onDone}
                 />
                 <View style = {{marginBottom: 16}} />
                 {show ? (
@@ -86,8 +90,8 @@ const AddLocation = () => {
                     style={{height:225, marginTop:24}}
                     provider={PROVIDER_GOOGLE}
                     region={{
-                        latitude: locationLatitude,
-                        longitude: locationLongitude,
+                        latitude: parseFloat(locationLatitude) || 13.121535126979689,
+                        longitude: parseFloat(locationLongitude) || 100.91912181391285,
                         latitudeDelta: 0.004,
                         longitudeDelta: 0.005,
                     }}
@@ -97,8 +101,8 @@ const AddLocation = () => {
                     {newLocation ? (
                         <Marker 
                             coordinate={{
-                                latitude: parseFloat(locationLatitude),
-                                longitude: parseFloat(locationLongitude),
+                                latitude: locationLatitude,
+                                longitude: locationLongitude,
                             }}
                         >
                             <Image style={{height: 48,width:48}} source={require('./images/pin.png')} />
@@ -106,14 +110,11 @@ const AddLocation = () => {
                     ) : null}
                 </MapView>
                 ) : null}
-                
-                
-                
                 <CustomBtn 
-                    btnText="Done"
+                    btnText="Find your location"
                     btnStyle={{marginTop: 24}}
-                    onPress={onDone}
-                />
+                    onPress={onFind}
+                />           
             </ScrollView>
         </View>
     );

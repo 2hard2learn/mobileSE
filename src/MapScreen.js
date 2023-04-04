@@ -14,8 +14,8 @@ const MapScreen = (props) => {
     const [region, setRegion] = useState({
             latitudeDelta,
             longitudeDelta,
-            latitude: 13.361143,
-            longitude: 100.984673,
+            latitude: 13.121535126979689,
+            longitude: 100.91912181391285,
     });
 
     const onChangeValue = (newRegion) => {
