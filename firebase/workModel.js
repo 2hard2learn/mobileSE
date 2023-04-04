@@ -88,6 +88,27 @@ export const submitWorks = (info,workInfo,text,where_you_from) => {
 }
 
 
+export const editGarage = (info,newInfo,success,unsuccess) => {
+    garagesColl.get()
+    .then((snapshot)=>{
+        snapshot.forEach((doc)=>{
+            if(doc.id==info.garage){
+                garagesColl.doc(info.garage).update({
+                    DayOpen:newInfo.DayOpen,
+                    dayClose:newInfo.dayClose,
+                    TimeOpen:newInfo.TimeOpen,
+                    title:newInfo.title,
+                    queueMax:newInfo.queueMax,
+                    queueNow:newInfo.queueNow})
+                success()
+            }
+        })
+    })
+    .catch((err)=>{
+        unsuccess(err)
+    })
+}
+
 export const getWorks = (info,where_you_go,success,unsuccess) => {
     if(where_you_go=='check'){
         garagesColl.doc(info.garage).collection('Duty').get()

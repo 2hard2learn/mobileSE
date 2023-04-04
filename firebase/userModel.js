@@ -4,6 +4,7 @@ import 'firebase/firestore'
 
 const DB = firebaseApp.firestore()
 const usersColl = DB.collection('User')
+const garagesColl = DB.collection('Garage')
 
 export const addUser = (uid, profile, success, unsuccess) => {
     //console.log(`addUser is activated user: ${email} firstname : ${profile.nickname}`)
@@ -25,6 +26,21 @@ export const addUser = (uid, profile, success, unsuccess) => {
         })
 }
 
+
+export const getGarage = (info,success,unsuccess) => {
+    // console.log(info)
+    garagesColl.get()
+    .then((snapshot)=>{
+        snapshot.forEach((doc)=>{
+            if(doc.id==info.garage){
+                success(doc.data())
+            }
+        })
+    })
+    .catch((err)=>{
+        unsuccess(err)
+    })
+}
 
 export const getEmployee = (info,item,success,unsuccess) => {
     // console.log(info)

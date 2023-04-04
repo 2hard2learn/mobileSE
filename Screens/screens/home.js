@@ -168,6 +168,17 @@ export const Home = ({navigation,route}) => {
     }
     //---------------------------------------------------------
 
+    //------------------- เจ้าของอู่ แก้ไขข้อมูลอู่ --------------------
+    const owner_edit_garage_success = (data) => {
+      navigation.navigate({name:'Owner_Edit_Garage_1', params:data})
+    }
+    const owner_edit_garage_unsucess = (msg) => {
+
+    }
+    const goOwnerEditGaragePage = (info) => {
+      UserModel.getGarage(info,owner_edit_garage_success,owner_edit_garage_unsucess)
+    }
+
     //---------------- แคชเชีย --------------------
     const cashier_checkbill_success = (data) => {
       navigation.navigate({name:'Cashier_Checkbill_1',params:data})
@@ -377,6 +388,14 @@ export const Home = ({navigation,route}) => {
               }}
             >
               <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>แก้ไขบัญชีพนักงาน</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}
+              onPress={()=>{
+                goOwnerEditGaragePage(Info.profile)
+              }}
+            >
+              <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>แก้ไขข้อมูลอู่</Text>
             </TouchableOpacity>
           </View>
         )

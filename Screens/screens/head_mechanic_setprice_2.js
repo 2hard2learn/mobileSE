@@ -58,6 +58,9 @@ export const Head_Mechanic_Setprice_2 = ({navigation,route}) => {
       )
   };
 
+  const [product,setProduct] = useState('')
+  const [price,setPrice] = useState('')
+
 
 
   let workInfo = route.params
@@ -83,10 +86,10 @@ export const Head_Mechanic_Setprice_2 = ({navigation,route}) => {
         <View style={{borderWidth:0,width:'90%',height:60,justifyContent:'center',borderTopLeftRadius:20,borderTopRightRadius:20,backgroundColor:'#05C3FF'}}>
           <Text style={{borderWidth:0,fontSize:25,color:'white',marginLeft:20,fontFamily:'Sound-Rounded'}}>{workInfo.plate}</Text>
         </View>
-        <View style={{borderWidth:0,width:'90%',height:150,justifyContent:'center',alignItems:'center',borderBottomLeftRadius:20,borderBottomRightRadius:20,backgroundColor:'#69DBFF'}}>
+        <View style={{borderWidth:0,width:'90%',height:120,justifyContent:'center',alignItems:'center',borderBottomLeftRadius:20,borderBottomRightRadius:20,backgroundColor:'#69DBFF'}}>
           <View style={{flex:1,borderWidth:0,width:'90%'}}>
             <Text style={{borderWidth:0,fontSize:20,color:'white',fontFamily:'Sound-Rounded'}}>รายงานการซ่อมแซม</Text>
-            <View style={{width:'100%',height:100,borderWidth:0,borderRadius:10,backgroundColor:'white'}}>
+            <View style={{width:'100%',height:70,borderWidth:0,borderRadius:10,backgroundColor:'white'}}>
               <ScrollView>
                 <Text style={{borderWidth:0,fontSize:15,color:'gray',margin:10,fontFamily:'Sound-Rounded'}}>{workInfo.fix_info}</Text>
               </ScrollView>
@@ -102,14 +105,51 @@ export const Head_Mechanic_Setprice_2 = ({navigation,route}) => {
           <View style={{borderWidth:0}}>
             <Text style={{borderWidth:0,fontSize:25,color:'white',marginLeft:20,fontFamily:'Sound-Rounded'}}>รายการ</Text>
           </View>
-          
-          <TouchableOpacity style={{borderWidth:0,width:40,height:40,marginRight:10,borderRadius:10,backgroundColor:'#FFB156',justifyContent:'center',alignItems:'center'}}>
-            <Entypo name="plus" size={24} color="white" />
-          </TouchableOpacity>
         </View>
-        <View style={{borderWidth:0,width:'90%',height:180,justifyContent:'center',alignItems:'center',borderBottomLeftRadius:20,borderBottomRightRadius:20,backgroundColor:'#69DBFF',marginBottom:10}}>
+        <View style={{borderWidth:0,width:'90%',height:250,justifyContent:'center',alignItems:'center',borderBottomLeftRadius:20,borderBottomRightRadius:20,backgroundColor:'#69DBFF',marginBottom:10}}>
           <View style={{flex:1,borderWidth:0,width:'90%',margin:10}}>
-            <ScrollView style={{borderWidth:1}}>
+            <View style={{borderWidth:0,flexDirection:'row',justifyContent:'space-between'}}>
+                    <View style={{borderWidth:0}}>
+                        <Text style={{borderWidth:0,fontSize:15,color:'white',fontFamily:'Sound-Rounded'}}>ชื่อรายการ</Text>
+                        <View style={{borderWidth:0,backgroundColor:'white',width:130,height:30,borderRadius:10,justifyContent:'center'}}>
+                            <TextInput style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+                                placeholder='ชื่อรายการ'
+                                value={product}
+                                onChangeText={(text)=>{
+                                    setProduct(text)
+                                }}
+                            ></TextInput>
+                        </View>
+                    </View>
+                    <View style={{borderWidth:0,marginLeft:10}}>
+                        <Text style={{borderWidth:0,fontSize:15,color:'white',fontFamily:'Sound-Rounded'}}>ราคา</Text>
+                        <View style={{borderWidth:0,backgroundColor:'white',width:80,height:30,borderRadius:10,justifyContent:'center'}}>
+                            <TextInput style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}} keyboardType='decimal-pad' inputMode='numberic'
+                                placeholder='ราคา'
+                                value={price}
+                                onChangeText={(text)=>{
+                                    setPrice(text)
+                                }}
+                            ></TextInput>
+                        </View>
+                    </View>
+                    <View style={{borderWidth:0,justifyContent:'flex-end',marginLeft:10}}>
+                        <TouchableOpacity style={{borderWidth:0,width:60,height:30,marginRight:10,borderRadius:10,backgroundColor:'#FFB156',justifyContent:'center',alignItems:'center'}}>
+                            <Text style={{borderWidth:0,fontSize:15,color:'white',fontFamily:'Sound-Rounded'}}>เพิ่ม</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+
+
+
+
+
+
+
+
+
+            <ScrollView style={{borderWidth:0,marginTop:10}}>
             <View style={{width:'100%',height:40,borderWidth:0,borderRadius:10,backgroundColor:'white'}}>
               <ScrollView>
                 <Text style={{borderWidth:0,fontSize:15,color:'gray',margin:10,fontFamily:'Sound-Rounded'}}>{workInfo.fix_info}</Text>
@@ -121,7 +161,11 @@ export const Head_Mechanic_Setprice_2 = ({navigation,route}) => {
         </View>
       </View>
       <View style={{borderWidth:0,width:'90%',flexDirection:'row',justifyContent:'flex-end'}}>
-        <TouchableOpacity style={{borderWidth:0,width:120,height:50,borderRadius:20,backgroundColor:'#00D662',justifyContent:'center',alignItems:'center'}}>
+        <TouchableOpacity style={{borderWidth:0,width:120,height:50,borderRadius:20,backgroundColor:'#00D662',justifyContent:'center',alignItems:'center'}}
+            onPress={()=>{
+
+            }}
+        >
             <Text style={{borderWidth:0,fontSize:25,color:'white',fontFamily:'Sound-Rounded'}}>ยืนยัน</Text>
         </TouchableOpacity>
       </View>

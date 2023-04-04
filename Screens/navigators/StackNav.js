@@ -27,6 +27,10 @@ import { Owner_Edit_Account_1 } from '../screens/owner_edit_account_1'
 import { Owner_Edit_Account_2 } from '../screens/owner_edit_account_2'
 import { Owner_Edit_Account_3 } from '../screens/owner_edit_account_3'
 
+import { Owner_Edit_Garage_1 } from '../screens/owner_edit_garage_1'
+
+
+
 import { Cashier_Checkbill_1 } from '../screens/cashier_checkbill_1'
 
 import { Customer_Edit  } from '../screens/customer_edit'
@@ -35,6 +39,8 @@ import { Customer_Map } from '../screens/customer_map'
 
 import { Head_Mechanic_Home } from '../screens/head_mechanic_home'
 
+import { AddLocation } from '../screens/AddLocation'
+import { MapScreen } from '../screens/MapScreen'
  
 const Stack = createNativeStackNavigator()
 
@@ -77,9 +83,15 @@ export const StackNav = () => {
             <Stack.Screen name='Owner_Edit_Account_1' component={Owner_Edit_Account_1} />
             <Stack.Screen name='Owner_Edit_Account_2' component={Owner_Edit_Account_2} />
             <Stack.Screen name='Owner_Edit_Account_3' component={Owner_Edit_Account_3} />
+
+            <Stack.Screen name="Owner_Edit_Garage_1" component={Owner_Edit_Garage_1} />
             
 
             <Stack.Screen name="Cashier_Checkbill_1" component={Cashier_Checkbill_1} />
+
+            <Stack.Screen name="AddLocation" component={AddLocation}/>
+            <Stack.Screen name="MapScreen" component={MapScreen}/>
+            
         </Stack.Navigator>
     )
 }
