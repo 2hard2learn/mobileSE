@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View ,Button,TouchableOpacity,FlatList,Alert} from 'react-native';
+import { StyleSheet, Text, View ,Button,TouchableOpacity,FlatList} from 'react-native';
 import React from 'react'
 import Constants from 'expo-constants';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -7,41 +7,60 @@ import { Ionicons } from '@expo/vector-icons';
 import { Card, Paragraph, Title } from 'react-native-paper'
 import { useState,useEffect,createContext } from 'react'
 import { useSelector } from 'react-redux'
-
+import { MaterialIcons } from '@expo/vector-icons';
 const CardContext = createContext()
-import * as WorkModel from '../../firebase/workModel'
-import * as UserModel from '../../firebase/userModel'
 
-export const Head_Mechanic_Assign_1 = ({navigation,route}) => {
+
+export const Owner_History_1 = ({navigation,route}) => {
   const Info = useSelector((state) => state.auths)
-  
   let Work = route.params
   //console.log(Work)
 
 
-  const headmechanic_assign_2_success = (data,item) => {
-    // console.log(data)
-    navigation.navigate({name:"Head_Mechanic_Assign_2",params:{data:data,work:item}})
+  const whatWork = (status) => {
+    if(status=='ตรวจสภาพแล้ว_รอยืนยัน'){
+      return 'รายงานตรวจสภาพ'
+    }
+    if(status=='ซ่อมแล้ว_รอยืนยัน'){
+      return 'รายงานซ่อมแซม'
+    }
   }
-  const headmechanic_assign_2_unsuccess = (msg) => {
-    Alert.alert(msg)
-  }
-  const goHeadMechanicAssign2Page = (item) => {
-    // console.log(item)
-    UserModel.getEmployee(Info.profile,item,headmechanic_assign_2_success,headmechanic_assign_2_unsuccess)
-  }
+
+  // const confirmWorkSuccess = () => {
+  //   navigation.navigate({name:'Head_Mechanic_Confirm_2'})
+  // }
+
+  // const confirmWorkUnsuccess = () => {
+
+  // }
+
+
+  // const goHeadMechanicConfirm2Page = (item) => {
+  //   WorkModel.confirm
+  // }
+
   const renderCard = (item) => {
     return (
-        <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center'}}
-          onPress={()=>{
-              // console.log(item)
-              goHeadMechanicAssign2Page(item)
-            // navigation.navigate({name:'Head_Mechanic_Assign_2',params:item})
-          }}
-        >
-          <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>{item.plate}</Text>
-          <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>{item.status}</Text>
-        </TouchableOpacity>
+        <View style={{flexDirection:'row'}}>
+            <View style={{borderWidth:0,width:290,height:75,backgroundColor:'#0DD08A',borderTopLeftRadius:5,borderBottomLeftRadius:5,justifyContent:'center'}}
+            onPress={()=>{
+                // console.log(item)
+                //   goHeadMechanicAssign2Page(item)
+                // navigation.navigate({name:'Head_Mechanic_Assign_2',params:item})
+            }}
+            >
+            <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>{item.plate}</Text>
+            </View>
+            <TouchableOpacity style={{borderWidth:0,width:40,height:75,borderTopRightRadius:5,borderBottomRightRadius:5,backgroundColor:'#0CBF7F',justifyContent:'center',alignItems:'center'}}
+                onPress={()=>{
+                    // goOwnerEditAccount2Page(item)
+                    // console.log(Work)
+                    navigation.navigate({name:'Owner_History_2',params:item})
+                }}
+            >
+                <MaterialIcons name="description" size={24} color="white" />
+            </TouchableOpacity>
+        </View>
     )
   }
 
@@ -67,7 +86,7 @@ export const Head_Mechanic_Assign_1 = ({navigation,route}) => {
     else{
       return (
         <View style={{flex:1,borderWidth:0,justifyContent:'center',alignItems:'center'}}>
-          <Text style={{fontFamily:'Sound-Rounded',fontSize:25,color:'#A1A1A1'}}>ไม่มีงานในตอนนี้</Text>
+          <Text style={{fontFamily:'Sound-Rounded',fontSize:25,color:'#A1A1A1'}}>ไม่มีประวัติงานในตอนนี้</Text>
         </View>
       )
     }
@@ -84,11 +103,11 @@ export const Head_Mechanic_Assign_1 = ({navigation,route}) => {
         >
           <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
-        <Text style={{borderWidth:0,fontSize:25,color:'white',marginLeft:20,fontFamily:'Sound-Rounded'}}>มอบหมายงาน</Text>
+        <Text style={{borderWidth:0,fontSize:25,color:'white',marginLeft:20,fontFamily:'Sound-Rounded'}}>ประวัติงานทั้งหมด</Text>
       </View>
 
       <View style={{height:50,borderWidth:0,justifyContent:'center'}}>
-        <Text style={{fontFamily:'Sound-Rounded',fontSize:25,color:'#05C3FF',marginLeft:10}}>งานที่ยังไม่มอบหมาย</Text>
+        <Text style={{fontFamily:'Sound-Rounded',fontSize:25,color:'#05C3FF',marginLeft:10}}>งานที่เสร็จแล้วทั้งหมด</Text>
       </View>
        
       <View style={{flex:1,borderWidth:0,alignItems:'center'}}>

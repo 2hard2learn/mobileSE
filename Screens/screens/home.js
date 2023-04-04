@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View ,Button, TouchableOpacity,Alert } from 'react-native';
+import { StyleSheet, Text, View ,Button, TouchableOpacity,Alert,Image } from 'react-native';
 import React , {useState,useEffect} from 'react'
 import Constants from 'expo-constants';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import * as UserModel from '../../firebase/userModel'
 import * as WorkModel from '../../firebase/workModel'
@@ -12,7 +13,7 @@ import * as WorkModel from '../../firebase/workModel'
 export const Home = ({navigation,route}) => {
     const Info = useSelector((state) => state.auths)
     //console.log(route.params)
-    //console.log(Info.profile)
+    // console.log(Info.profile)
 
     // const Info = route.params
 
@@ -66,133 +67,184 @@ export const Home = ({navigation,route}) => {
     // }
 
 
-    // const vehicleId = (route.params.firstVehicleId,route.params.lastVehicleId) => {
-    //     if(route.params.firstVehicleId=='' || route.params.lastVehicleId==''){
+    // const haveVehicleId = () => {
+    //     if(Info.profile.firstVehicleId==undefined || Info.profile.lastVehicleId==undefined){
     //         return (
     //             <Text style={{fontFamily:'Sound-Rounded',fontSize:16,color:'red'}}>ยังไม่กรอกหมายเลขทะเบียน</Text>
     //         )
     //     }else{
     //         return (
-    //             <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>{route.params.firstVehicleId+'-'+route.params.lastVehicleId}</Text>
+    //             <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>{Info.profile.firstVehicleId+'-'+Info.profile.lastVehicleId}</Text>
     //         )
     //     }
     // }
 
-    const mechanic_check_success = (data) => {
 
+    //---------------- ตรวจสภาพ --------------------
+    const mechanic_check_success = (data) => {
       navigation.navigate({name:'Mechanic_Check_1',params:data})
     }
     const mechanic_check_unsuccess = (msg) => {
       Alert.alert(msg)
     }
-
-    const goMechanicCheckPage = (username) => {
-      WorkModel.Mechanic_Check_getWorksByUsername(username,mechanic_check_success,mechanic_check_unsuccess)
+    const goMechanicCheckPage = (info) => {
+      WorkModel.getWorks(info,'check',mechanic_check_success,mechanic_check_unsuccess)
     }
+    //----------------------------------------------
 
+    //---------------- ซ่อมแซม --------------------
     const mechanic_fix_success = (data) => {
-
       navigation.navigate({name:'Mechanic_Fix_1',params:data})
     }
     const mechanic_fix_unsuccess = (msg) => {
       Alert.alert(msg)
     }
-
-    const goMechanicFixPage = (username) => {
-      WorkModel.Mechanic_Fix_getWorksByUsername(username,mechanic_fix_success,mechanic_fix_unsuccess)
+    const goMechanicFixPage = (info) => {
+      WorkModel.getWorks(info,'fix',mechanic_fix_success,mechanic_fix_unsuccess)
     }
+    //----------------------------------------------
 
+    //---------------- หัวหน้า มอบหมายงาน --------------------
     const headmechanic_assign_success = (data) => {
       navigation.navigate({name:"Head_Mechanic_Assign_1",params:data})
     }
     const headmechanic_assign_unsuccess = (msg) => {
       Alert.alert(msg)
     }
+    const goHeadMechanicAssignPage = (info) => {
+      // console.log(info)
+      WorkModel.getWorks(info,'assign',headmechanic_assign_success,headmechanic_assign_unsuccess)
+    }
+    //----------------------------------------------
+
+    //---------------- หัวหน้า ยืนยันงาน --------------------
     const headmechanic_confirm_success = (data) => {
       navigation.navigate({name:'Head_Mechanic_Confirm_1',params:data})
     }
     const headmechanic_confirm_unsuccess = (msg) => {
       Alert.alert(msg)
     }
+    const goHeadMechanicConfirmPage = (info) => {
+      WorkModel.getWorks(info,'confirm',headmechanic_confirm_success,headmechanic_confirm_unsuccess)
+    }
+    //----------------------------------------------
+
+    //------------------ หัวหน้าช่าง ประเมินราคา --------------------
+    const goBoss_set_price_success = (data) =>{
+      // console.log(data)
+      navigation.navigate({name:'Head_Mechanic_Setprice_1',params:data})
+    }
+    const goBoss_set_price_unsuccess = (msg) =>{
+
+    }
+    const goBossSetPricePage = (info) => {
+      WorkModel.getWorks(info,'setprice',goBoss_set_price_success,goBoss_set_price_unsuccess)
+    }
+    //------------------------------------------------------------
+
+    //------------------ เจ้าของอู่ แก้ไขพนักงาน --------------------
+    const owner_edit_account_success = (data) => {
+      // console.log(data)
+      navigation.navigate({name:'Owner_Edit_Account_1',params:data})
+    }
+    const owner_edit_account_unsuccess = (msg) => {
+      Alert.alert(msg)
+    }
+    const goOwnerEditAccountPage = (info) => {
+      UserModel.OwnerGetEmployee(info,owner_edit_account_success,owner_edit_account_unsuccess)
+    }
+    //--------------------------------------------
+
+    //-------------------- เจ้าของอู่ ดูประวัติงาน ------------------------
+    const owner_history_success = (data) => {
+      // console.log(data)
+      navigation.navigate({name:'Owner_History_1',params:data})
+    }
+    const owner_history_unsuccess = (msg) => {
+
+    }
+    const goOwnerHistoryPage = (info) => {
+      WorkModel.getWorks(info,'history',owner_history_success,owner_history_unsuccess)
+    }
+    //---------------------------------------------------------
+
+    //---------------- แคชเชีย --------------------
     const cashier_checkbill_success = (data) => {
       navigation.navigate({name:'Cashier_Checkbill_1',params:data})
     }
     const cashier_checkbill_unsuccess = (msg) => {
       Alert.alert(msg)
     }
-
-    const goHeadMechanicAssignPage = () => {
-      WorkModel.HeadMechanic_Assign_getWorks(headmechanic_assign_success,headmechanic_assign_unsuccess)
-    }
-    const goHeadMechanicConfirmPage = () => {
-      WorkModel.HeadMechanic_Confirm_getWorks(headmechanic_confirm_success,headmechanic_confirm_unsuccess)
-    }
-
     const goCashierCheckbillPage = () => {
       WorkModel.Cashier_Checkbill_getWorks(cashier_checkbill_success,cashier_checkbill_unsuccess)
     }
+    //----------------------------------------------
 
+    // console.log(Info.profile)
 
 
     //ข้อมูลของผู้ใช้ ชื่อ นามสกุล ทะเบียน ตำแหน่งงาน
     const whatRole = (role) => {
         switch(role){
-            case "customer":
+            case "user":
                 return (
                     <View style={{borderWidth:0,height:140,justifyContent:'center',alignItems:'center'}}>
                         <View style={{borderWidth:0,width:330,height:100,backgroundColor:'#D9D9D9',borderRadius:10,justifyContent:'center',flexDirection:'row'}}>
                           <View style={{borderWidth:0,width:100,height:100,justifyContent:'center',alignItems:'center',borderRadius:10}}>
-                              <View style={{borderWidth:0,width:80,height:80,borderRadius:40,backgroundColor:'white'}}>
+                          <View style={{borderWidth:0,width:80,height:80,borderRadius:40,backgroundColor:'white',justifyContent:'center',alignItems:'center'}}>
+                                <MaterialCommunityIcons name="account" size={60} color="gray" /> 
                               </View>
                           </View>
                           <View style={{borderWidth:0,width:230,height:100,borderRadius:10,alignItems:'center',justifyContent:'center'}}>
-                              <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>{Info.profile.firstname+' '+Info.profile.lastname}</Text>
-                              <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>{Info.profile.firstVehicleId+' '+Info.profile.astVehicleId}</Text>
+                              <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>{Info.profile.Name+' '+Info.profile.LastName}</Text>
                           </View>
                         </View>
                     </View>
                 )
-            case "mechanic":
+            case "employee":
               return (
                 <View style={{borderWidth:0,height:140,justifyContent:'center',alignItems:'center'}}>
                         <View style={{borderWidth:0,width:330,height:100,backgroundColor:'#D9D9D9',borderRadius:10,justifyContent:'center',flexDirection:'row'}}>
                           <View style={{borderWidth:0,width:100,height:100,justifyContent:'center',alignItems:'center',borderRadius:10}}>
-                              <View style={{borderWidth:0,width:80,height:80,borderRadius:40,backgroundColor:'white'}}>
+                          <View style={{borderWidth:0,width:80,height:80,borderRadius:40,backgroundColor:'white',justifyContent:'center',alignItems:'center'}}>
+                                <MaterialCommunityIcons name="account" size={60} color="gray" /> 
                               </View>
                           </View>
                           <View style={{borderWidth:0,width:230,height:100,borderRadius:10,alignItems:'center',justifyContent:'center'}}>
-                              <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>{Info.profile.firstname+' '+Info.profile.lastname}</Text>
+                              <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>{Info.profile.Name+' '+Info.profile.LastName}</Text>
                               <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>พนักงานช่าง</Text>
                           </View>
                         </View>
                     </View>
               )
-            case "head_mechanic":
+            case "boss":
               return (
                 <View style={{borderWidth:0,height:140,justifyContent:'center',alignItems:'center'}}>
                         <View style={{borderWidth:0,width:330,height:100,backgroundColor:'#D9D9D9',borderRadius:10,justifyContent:'center',flexDirection:'row'}}>
                           <View style={{borderWidth:0,width:100,height:100,justifyContent:'center',alignItems:'center',borderRadius:10}}>
-                              <View style={{borderWidth:0,width:80,height:80,borderRadius:40,backgroundColor:'white'}}>
+                            <View style={{borderWidth:0,width:80,height:80,borderRadius:40,backgroundColor:'white',justifyContent:'center',alignItems:'center'}}>
+                                <MaterialCommunityIcons name="account" size={60} color="gray" /> 
                               </View>
                           </View>
                           <View style={{borderWidth:0,width:230,height:100,borderRadius:10,alignItems:'center',justifyContent:'center'}}>
-                              <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>{Info.profile.firstname+' '+Info.profile.lastname}</Text>
+                              <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>{Info.profile.Name+' '+Info.profile.LastName}</Text>
                               <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>หัวหน้าช่าง</Text>
                           </View>
                         </View>
                     </View>
               )
-            case "manager":
+            case "owner":
               return (
                 <View style={{borderWidth:0,height:140,justifyContent:'center',alignItems:'center'}}>
                         <View style={{borderWidth:0,width:330,height:100,backgroundColor:'#D9D9D9',borderRadius:10,justifyContent:'center',flexDirection:'row'}}>
-                          <View style={{borderWidth:0,width:100,height:100,justifyContent:'center',alignItems:'center',borderRadius:10}}>
-                              <View style={{borderWidth:0,width:80,height:80,borderRadius:40,backgroundColor:'white'}}>
+                        <View style={{borderWidth:0,width:100,height:100,justifyContent:'center',alignItems:'center',borderRadius:10}}>
+                              <View style={{borderWidth:0,width:80,height:80,borderRadius:40,backgroundColor:'white',justifyContent:'center',alignItems:'center'}}>
+                                <MaterialCommunityIcons name="account" size={60} color="gray" /> 
                               </View>
                           </View>
                           <View style={{borderWidth:0,width:230,height:100,borderRadius:10,alignItems:'center',justifyContent:'center'}}>
-                              <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>{Info.profile.firstname+' '+Info.profile.lastname}</Text>
-                              <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>ผู้จัดการ</Text>
+                              <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>{Info.profile.Name+' '+Info.profile.LastName}</Text>
+                              <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>เจ้าของอู่</Text>
                           </View>
                         </View>
                     </View>
@@ -202,11 +254,12 @@ export const Home = ({navigation,route}) => {
                 <View style={{borderWidth:0,height:140,justifyContent:'center',alignItems:'center'}}>
                         <View style={{borderWidth:0,width:330,height:100,backgroundColor:'#D9D9D9',borderRadius:10,justifyContent:'center',flexDirection:'row'}}>
                           <View style={{borderWidth:0,width:100,height:100,justifyContent:'center',alignItems:'center',borderRadius:10}}>
-                              <View style={{borderWidth:0,width:80,height:80,borderRadius:40,backgroundColor:'white'}}>
+                          <View style={{borderWidth:0,width:80,height:80,borderRadius:40,backgroundColor:'white',justifyContent:'center',alignItems:'center'}}>
+                                <MaterialCommunityIcons name="account" size={60} color="gray" /> 
                               </View>
                           </View>
                           <View style={{borderWidth:0,width:230,height:100,borderRadius:10,alignItems:'center',justifyContent:'center'}}>
-                              <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>{Info.profile.firstname+' '+Info.profile.lastname}</Text>
+                              <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>{Info.profile.Name+' '+Info.profile.LastName}</Text>
                               <Text style={{fontFamily:'Sound-Rounded',fontSize:16}}>พนักงานคิดเงิน</Text>
                           </View>
                         </View>
@@ -217,14 +270,14 @@ export const Home = ({navigation,route}) => {
 
     const whatAbilityText = (role) => {
       //ลูกค้า
-      if(role=='customer'){
+      if(role=='user' || role=='owner'){
         return (
           <View style={{height:50,borderWidth:0,justifyContent:'center'}}>
             <Text style={{fontFamily:'Sound-Rounded',fontSize:25,color:'#05C3FF',marginLeft:10}}>รายการ</Text>
           </View>
         )
       }
-      //ช่าง หัวหน้าช่าง ผู้จัดการ แคชเชียร์
+      //ช่าง หัวหน้าช่าง  แคชเชียร์
       else{
         return (
           <View style={{height:50,borderWidth:0,justifyContent:'center'}}>
@@ -236,7 +289,7 @@ export const Home = ({navigation,route}) => {
 
     const whatAbility = (role) => {
       //ลูกค้า
-      if(role=='customer'){
+      if(role=='user'){
         return (
           <View style={{flex:1,borderWidth:0,alignItems:'center'}}>
             <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}>
@@ -255,12 +308,12 @@ export const Home = ({navigation,route}) => {
         )
       }
       //ช่าง
-      if(role=='mechanic'){
+      if(role=='employee'){
         return (
           <View style={{flex:1,borderWidth:0,alignItems:'center'}}>
             <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}
               onPress={()=>{
-                goMechanicCheckPage(Info.profile.username)
+                goMechanicCheckPage(Info.profile)
               }}
             >
               <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>ตรวจเช็คสภาพรถยนต์</Text>
@@ -268,7 +321,7 @@ export const Home = ({navigation,route}) => {
 
             <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}
               onPress={()=>{
-                goMechanicFixPage(Info.profile.username)
+                goMechanicFixPage(Info.profile)
               }}
             >
               <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>ซ่อมแซมรถยนต์</Text>
@@ -277,12 +330,12 @@ export const Home = ({navigation,route}) => {
         )
       }
       //หัวหน้าช่าง
-      if(role=='head_mechanic'){
+      if(role=='boss'){
         return (
           <View style={{flex:1,borderWidth:0,alignItems:'center'}}>
             <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}
               onPress={()=>{
-                goHeadMechanicAssignPage()
+                goHeadMechanicAssignPage(Info.profile)
               }}
             >
               <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>มอบหมายงานให้พนักงานช่าง</Text>
@@ -290,20 +343,45 @@ export const Home = ({navigation,route}) => {
 
             <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}
               onPress={()=>{
-                goHeadMechanicConfirmPage()
+                goHeadMechanicConfirmPage(Info.profile)
               }}
             >
               <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>งานที่รอยืนยัน</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}
+              onPress={()=>{
+                goBossSetPricePage(Info.profile)
+              }}
+            >
+              <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>งานที่รอประเมินราคา</Text>
+            </TouchableOpacity>
           </View>
         )
       }
-      //ผู้จัดการ
-      if(role=='manager'){
+      // เจ้าของอู่
+      if(role=='owner'){
         return (
-          pass
+          <View style={{flex:1,borderWidth:0,alignItems:'center'}}>
+            <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}
+              onPress={()=>{
+                // goOwnerEditAccountPage(Info.profile)
+                goOwnerHistoryPage(Info.profile)
+              }}
+            >
+              <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>ประวัติงานทั้งหมด</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}
+              onPress={()=>{
+                goOwnerEditAccountPage(Info.profile)
+              }}
+            >
+              <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>แก้ไขบัญชีพนักงาน</Text>
+            </TouchableOpacity>
+          </View>
         )
       }
+      
       //แคชเชียร์
       if(role=='cashier'){
         return (

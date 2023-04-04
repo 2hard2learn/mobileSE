@@ -12,31 +12,31 @@ const CardContext = createContext()
 import * as WorkModel from '../../firebase/workModel'
 import * as UserModel from '../../firebase/userModel'
 
-export const Head_Mechanic_Assign_1 = ({navigation,route}) => {
+export const Head_Mechanic_Setprice_1 = ({navigation,route}) => {
   const Info = useSelector((state) => state.auths)
   
   let Work = route.params
   //console.log(Work)
 
 
-  const headmechanic_assign_2_success = (data,item) => {
+  const headmechanic_setprice_2_success = (data,item) => {
     // console.log(data)
     navigation.navigate({name:"Head_Mechanic_Assign_2",params:{data:data,work:item}})
   }
-  const headmechanic_assign_2_unsuccess = (msg) => {
+  const headmechanic_setprice_2_unsuccess = (msg) => {
     Alert.alert(msg)
   }
-  const goHeadMechanicAssign2Page = (item) => {
+  const goHeadMechanicSetprice2Page = (item) => {
     // console.log(item)
-    UserModel.getEmployee(Info.profile,item,headmechanic_assign_2_success,headmechanic_assign_2_unsuccess)
+    // WorkModel.getWorks(Info.profile,item,headmechanic_assign_2_success,headmechanic_assign_2_unsuccess)
   }
   const renderCard = (item) => {
     return (
         <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center'}}
           onPress={()=>{
               // console.log(item)
-              goHeadMechanicAssign2Page(item)
-            // navigation.navigate({name:'Head_Mechanic_Assign_2',params:item})
+            //   goHeadMechanicSetprice2Page(item)
+            navigation.navigate({name:'Head_Mechanic_Setprice_2',params:item})
           }}
         >
           <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>{item.plate}</Text>

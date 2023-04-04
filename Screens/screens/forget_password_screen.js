@@ -7,51 +7,50 @@ import { addProfileUser,addProfileEmployee } from '../../redux/authSlice'
 import * as AuthModel from '../../firebase/authModel'
 import * as UserModel from '../../firebase/userModel'
 
-export const LoginScreen = ({navigation}) => {
+export const Forget_Password_Screen = ({navigation}) => {
 
-  const [credential, setCredential] = useState({ email: '', password: '' })
-  const setEmail = (text) => {
-    setCredential(oldValue => ({
-      ...oldValue,
-      email: text
-    }))
-  }
+//   const [credential, setCredential] = useState({ email: '', password: '' })
+//   const setEmail = (text) => {
+//     setCredential(oldValue => ({
+//       ...oldValue,
+//       email: text
+//     }))
+//   }
+  const [email,setEmail] = useState()
+//   const setPassword = (text) => {
+//     setCredential(oldValue => ({
+//       ...oldValue,
+//       password: text
+//     }))
+//   }
+//   const dispatch = useDispatch()
 
-  const setPassword = (text) => {
-    setCredential(oldValue => ({
-      ...oldValue,
-      password: text
-    }))
-  }
-  const dispatch = useDispatch()
-
-  const success = (doc) => {
-    // console.log(`user data = ${doc.data().username}`)
-    // console.log(doc.data())
-    if(doc.data().role == 'user'){
-      let profile_state = {
-        'CarModel': doc.data().CarModel,
-        'LastName': doc.data().LastName,
-        'Name': doc.data().Name,
-        'PhoneNumber': doc.data().PhoneNumber,
-        'UID': doc.data().UID,
-        "role": doc.data().role
-      }
-      dispatch(addProfileUser(profile_state))
-    }
-    else{
-      let profile_state = {
-        'LastName': doc.data().LastName,
-        'Name': doc.data().Name,
-        'PhoneNumber': doc.data().PhoneNumber,
-        'UID': doc.data().UID,
-        "garage": doc.data().garage,
-        "image":doc.data().image,
-        "role": doc.data().role
-      }
-      dispatch(addProfileEmployee(profile_state))
-    }
-    navigation.navigate({name:'Home'})
+//   const success = (doc) => {
+//     // console.log(`user data = ${doc.data().username}`)
+//     // console.log(doc.data())
+//     if(doc.data().role == 'user'){
+//       let profile_state = {
+//         'CarModel': doc.data().CarModel,
+//         'LastName': doc.data().LastName,
+//         'Name': doc.data().Name,
+//         'PhoneNumber': doc.data().PhoneNumber,
+//         'UID': doc.data().UID,
+//         "role": doc.data().role
+//       }
+//       dispatch(addProfileUser(profile_state))
+//     }
+//     else{
+//       let profile_state = {
+//         'LastName': doc.data().LastName,
+//         'Name': doc.data().Name,
+//         'PhoneNumber': doc.data().PhoneNumber,
+//         'UID': doc.data().UID,
+//         "garage": doc.data().garage,
+//         "role": doc.data().role
+//       }
+//       dispatch(addProfileEmployee(profile_state))
+//     }
+//     navigation.navigate({name:'Home'})
 
 
     // let profile_state = {
@@ -82,38 +81,35 @@ export const LoginScreen = ({navigation}) => {
     //     username:item.username
     //   }
     // })
-  }
+  
 
-  const unsuccess = (msg) => {
-    //console.log(msg)
-    Alert.alert(msg)
-  }
 
-  const signInSuccess = (uid) => {
-    //console.log(`sign in success user = ${username}`)
-    // UserModel.getUserByEmail(email, success, unsuccess)
-    UserModel.getUserByUID(uid,success,unsuccess)
-  }
 
-  const onSignInPress = () => {
-    AuthModel.singInEmailPass(credential.email, credential.password, signInSuccess, unsuccess)
-    // if(authList.length > 0){
-    //   let user = authList.find((item) => {
-    //     return item.username == credential.username && item.password == credential.password
-    //   })
-    //   console.log(`user: ${user}`)
-    //   if(user != undefined)
-    //     success(user)
-    //   else
-    //     unsuccess('Wrong username or password')
-    // }else{
-    //   unsuccess(`No user in system yet`)
-    // }
-  }
+//   const signInSuccess = (uid) => {
+//     //console.log(`sign in success user = ${username}`)
+//     // UserModel.getUserByEmail(email, success, unsuccess)
+//     UserModel.getUserByUID(uid,success,unsuccess)
+//   }
 
-  const onSignUpPress = () => {
-    navigation.navigate({name:'Register_Screen'})
-  }
+//   const onSignInPress = () => {
+//     AuthModel.singInEmailPass(credential.email, credential.password, signInSuccess, unsuccess)
+//     // if(authList.length > 0){
+//     //   let user = authList.find((item) => {
+//     //     return item.username == credential.username && item.password == credential.password
+//     //   })
+//     //   console.log(`user: ${user}`)
+//     //   if(user != undefined)
+//     //     success(user)
+//     //   else
+//     //     unsuccess('Wrong username or password')
+//     // }else{
+//     //   unsuccess(`No user in system yet`)
+//     // }
+//   }
+
+//   const onSignUpPress = () => {
+//     navigation.navigate({name:'Register_Screen'})
+//   }
 
 
 
@@ -170,34 +166,38 @@ export const LoginScreen = ({navigation}) => {
   // }
 
 
-  const onForgetPasswordPress = () => {
-    navigation.navigate({name:'Forget_Password_Screen'})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const unsuccess = (msg) => {
+    //console.log(msg)
+    Alert.alert(msg)
+  }
+
+  const success = () => {
+    navigation.navigate({name:'Login_Screen'})
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  const onConfirmPress = () => {
+    AuthModel.recoverPassword(email,success,unsuccess)
+  }
 
 
 
@@ -332,55 +332,43 @@ export const LoginScreen = ({navigation}) => {
 
   return (
     <ImageBackground source={{uri:'https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.gif'}} style={{flex:1,backgroundColor:'black',justifyContent:'center',alignItems:'center',}}>
-      <View style={{width:280,height:350,backgroundColor:"#69DBFF",borderRadius:30,justifyContent:'center',alignItems:'center'}}>
-        <View style={{flex:0.3,borderWidth:0,borderColor:'red',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-          <View style={{flex:1,width:'100%',height:'100%',justifyContent:'center',alignItems:'center',backgroundColor:'#05C3FF',borderTopLeftRadius:20,borderTopRightRadius:20}}>
-            <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white'}}>ลงชื่อเข้าใช้</Text>
+        <View style={{width:90,height:40,borderWidth:0,borderColor:'red',alignSelf:'flex-start',marginLeft:30,marginBottom:10}}>
+            <TouchableOpacity style={{width:'100%',height:'100%',backgroundColor:'#EF4040',justifyContent:'center',alignItems:'center',borderRadius:10}}
+                onPress={()=>{navigation.navigate({name:'Login_Screen'})}}
+            >
+                <Text style={{fontFamily:'Sound-Rounded',fontSize:15,color:'white'}}>ย้อนกลับ</Text>
+            </TouchableOpacity>
+
+        </View>
+      <View style={{width:280,height:250,backgroundColor:"#ff7474",borderRadius:30,justifyContent:'center',alignItems:'center'}}>
+        <View style={{flex:0.6,borderWidth:0,borderColor:'red',flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+          <View style={{flex:1,width:'100%',height:'100%',justifyContent:'center',alignItems:'center',backgroundColor:'#FF0000',borderTopLeftRadius:20,borderTopRightRadius:20}}>
+            <Text style={{fontFamily:'Sound-Rounded',fontSize:24,color:'white'}}>ลืมรหัสผ่าน</Text>
 
           </View>
 
         </View>
+        <View style={{borderWidth:0,flex:0.5,justifyContent:'center',alignItems:'center',marginTop:10}}>
+            <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white'}}>กรุณากรอกอีเมลของท่าน</Text>
+            <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white'}}>เพื่อเปลี่ยนรหัสผ่าน</Text>
+        </View>
         <View style={{flex:1,borderWidth:0,borderColor:'red',justifyContent:'center',alignItems:'center'}}>
-          <View style={{borderWidth:0,marginTop:10}}>
+          <View style={{borderWidth:0,marginTop:0}}>
             <Text style={{fontFamily:'Sound-Rounded',fontSize:14,color:'white'}}>อีเมล</Text>
             <TextInput style={{width:200,height:35,backgroundColor:'white',color:'#606060',fontFamily:'Sound-Rounded',borderRadius:12,paddingLeft:10}}
               placeholder='email@example.com'
-              value={credential.email}
+              value={email}
               onChangeText={(text) => setEmail(text)}
             />
-            <Text style={{fontFamily:'Sound-Rounded',fontSize:14,color:'white'}}>รหัสผ่าน</Text>
-            <TextInput style={{width:200,height:35,backgroundColor:'white',color:'#606060',fontFamily:'Sound-Rounded',borderRadius:12,paddingLeft:10}}
-              secureTextEntry={true}
-              placeholder='password'
-              value={credential.password}
-              onChangeText={(text) => setPassword(text)}
-            />
-            <View style={{flex:0.7,borderWidth:0,justifyContent:'center',alignItems:'center',flexDirection:'row',marginTop:30}}>
-              <TouchableOpacity style={{backgroundColor:'#EF4040',borderRadius:10,width:85,height:25,justifyContent:'center',alignItems:'center'}}
-                onPress={()=>{
-                  onForgetPasswordPress()
-                }}
-              >
-                <Text style={{fontFamily:'Sound-Rounded',fontSize:14,color:'white'}}>ลืมรหัสผ่าน</Text>
-              </TouchableOpacity>
-
-            </View>
           </View>
         </View>
         <View style={{flex:0.7,borderWidth:0,borderColor:'red',justifyContent:'center',alignItems:'center'}}>
-          <TouchableOpacity style={{width:100,height:40,backgroundColor:'#00BE4C',borderRadius:10,justifyContent:'center',alignItems:'center',margin:10}}
-            onPress={()=>{onSignInPress()}}
+          <TouchableOpacity style={{width:100,height:40,backgroundColor:'#FFB156',borderRadius:10,justifyContent:'center',alignItems:'center',margin:10}}
+            onPress={()=>{onConfirmPress()}}
           >
-            <Text style={{fontFamily:'Sound-Rounded',fontSize:16,color:'white'}}>เข้าสู่ระบบ</Text>
+            <Text style={{fontFamily:'Sound-Rounded',fontSize:16,color:'white'}}>ยืนยัน</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={{width:100,height:40,backgroundColor:'#FF9900',borderRadius:10,justifyContent:'center',alignItems:'center'}}
-            onPress={()=>{
-              onSignUpPress()
-            }}
-          >
-            <Text style={{fontFamily:'Sound-Rounded',fontSize:16,color:'white'}}>สมัครสมาชิก</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </ImageBackground>

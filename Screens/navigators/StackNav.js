@@ -1,6 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { LoginScreen } from '../screens/login_screen'
+import { RegisterScreen } from '../screens/register_screen'
+import { Forget_Password_Screen } from '../screens/forget_password_screen'
 
 import { Home } from '../screens/home'
 
@@ -10,8 +12,20 @@ import { Mechanic_Fix_1 } from '../screens/mechanic_fix_1'
 import { Mechanic_Fix_2 } from '../screens/mechanic_fix_2'
 
 import { Head_Mechanic_Assign_1 } from '../screens/head_mechanic_assign_1'
+import { Head_Mechanic_Assign_2 } from '../screens/head_mechanic_assign_2'
 
 import { Head_Mechanic_Confirm_1 } from '../screens/head_mechanic_confirm_1'
+import { Head_Mechanic_Confirm_2 } from '../screens/head_mechanic_confirm_2'
+
+import { Head_Mechanic_Setprice_1 } from '../screens/head_mechanic_setprice_1'
+import { Head_Mechanic_Setprice_2 } from '../screens/head_mechanic_setprice_2'
+
+import { Owner_History_1 } from '../screens/owner_history_1'
+import { Owner_History_2 } from '../screens/owner_history_2'
+
+import { Owner_Edit_Account_1 } from '../screens/owner_edit_account_1'
+import { Owner_Edit_Account_2 } from '../screens/owner_edit_account_2'
+import { Owner_Edit_Account_3 } from '../screens/owner_edit_account_3'
 
 import { Cashier_Checkbill_1 } from '../screens/cashier_checkbill_1'
 
@@ -34,6 +48,8 @@ export const StackNav = () => {
             }
         >
             <Stack.Screen name='Login_Screen' component={LoginScreen} />
+            <Stack.Screen name='Register_Screen' component={RegisterScreen} />
+            <Stack.Screen name='Forget_Password_Screen' component={Forget_Password_Screen} />
 
             <Stack.Screen name='Home' component={Home} />
 
@@ -47,7 +63,21 @@ export const StackNav = () => {
             <Stack.Screen name="Mechanic_Fix_2" component={Mechanic_Fix_2} />
 
             <Stack.Screen name="Head_Mechanic_Assign_1" component={Head_Mechanic_Assign_1} />
+            <Stack.Screen name="Head_Mechanic_Assign_2" component={Head_Mechanic_Assign_2} />
+
             <Stack.Screen name="Head_Mechanic_Confirm_1" component={Head_Mechanic_Confirm_1} />
+            <Stack.Screen name="Head_Mechanic_Confirm_2" component={Head_Mechanic_Confirm_2} />
+
+            <Stack.Screen name="Head_Mechanic_Setprice_1" component={Head_Mechanic_Setprice_1} />
+            <Stack.Screen name="Head_Mechanic_Setprice_2" component={Head_Mechanic_Setprice_2} />
+
+            <Stack.Screen name="Owner_History_1" component={Owner_History_1} />
+            <Stack.Screen name="Owner_History_2" component={Owner_History_2} />
+
+            <Stack.Screen name='Owner_Edit_Account_1' component={Owner_Edit_Account_1} />
+            <Stack.Screen name='Owner_Edit_Account_2' component={Owner_Edit_Account_2} />
+            <Stack.Screen name='Owner_Edit_Account_3' component={Owner_Edit_Account_3} />
+            
 
             <Stack.Screen name="Cashier_Checkbill_1" component={Cashier_Checkbill_1} />
         </Stack.Navigator>

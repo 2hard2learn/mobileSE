@@ -23,7 +23,7 @@ export const Mechanic_Fix_1 = ({navigation,route}) => {
             navigation.navigate({name:'Mechanic_Fix_2',params:item})
           }}
         >
-          <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>{item.firstVehicleId+'-'+item.lastVehicleId}</Text>
+          <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>{item.plate}</Text>
         </TouchableOpacity>
     )
   }

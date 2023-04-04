@@ -12,18 +12,43 @@ const CardContext = createContext()
 
 
 export const Head_Mechanic_Confirm_1 = ({navigation,route}) => {
-  
+  const Info = useSelector((state) => state.auths)
   let Work = route.params
   //console.log(Work)
+
+
+  const whatWork = (status) => {
+    if(status=='ตรวจสภาพแล้ว_รอยืนยัน'){
+      return 'รายงานตรวจสภาพ'
+    }
+    if(status=='ซ่อมแล้ว_รอยืนยัน'){
+      return 'รายงานซ่อมแซม'
+    }
+  }
+
+  // const confirmWorkSuccess = () => {
+  //   navigation.navigate({name:'Head_Mechanic_Confirm_2'})
+  // }
+
+  // const confirmWorkUnsuccess = () => {
+
+  // }
+
+
+  // const goHeadMechanicConfirm2Page = (item) => {
+  //   WorkModel.confirm
+  // }
 
   const renderCard = (item) => {
     return (
         <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center'}}
           onPress={()=>{
+            // goHeadMechanicConfirm2Page(item)
             navigation.navigate({name:'Head_Mechanic_Confirm_2',params:item})
           }}
         >
-          <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>{item.firstVehicleId+'-'+item.lastVehicleId}</Text>
+          <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>{whatWork(item.status)}</Text>
+          <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>{item.plate}</Text>
         </TouchableOpacity>
     )
   }

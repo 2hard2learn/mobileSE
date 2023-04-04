@@ -7,8 +7,9 @@ export const singInEmailPass = (email = '', password = '', success, unsuccess) =
     auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             let user = userCredential.user
+            // console.log(user.uid)
             //console.log(`userCredential.user = ${user.email}`)
-            success(user.email)
+            success(user.uid)
         })
         .catch((err) => {
             //console.log(`singInEmailPass error`)
@@ -21,7 +22,7 @@ export const signUpEmailPass = (email = '', password = '', success, unsuccess) =
         .then((userCredential) => {
             let user = userCredential.user
             //console.log(user)
-            success(user)
+            success(user.uid)
         })
         .catch((err) => {
             unsuccess(err.code)
