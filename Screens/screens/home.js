@@ -6,9 +6,12 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import * as UserModel from '../../firebase/userModel'
 import * as WorkModel from '../../firebase/workModel'
+import * as AuthModel from '../../firebase/authModel'
 
 export const Home = ({navigation,route}) => {
     const Info = useSelector((state) => state.auths)
@@ -191,8 +194,52 @@ export const Home = ({navigation,route}) => {
     }
     //----------------------------------------------
 
-    // console.log(Info.profile)
+    // ------------------- user เพิ่มรถ ---------------------
+    const getCarSuccess = (data) => {
+      // console.log(data)
+      navigation.navigate({name:'User_Car_1',params:data})
+    }
+    const getCarUnsuccess = () => {
 
+    }
+
+    const goUserCarPage = (info) => {
+      UserModel.getCar(info,getCarSuccess,getCarUnsuccess)
+    }
+    //----------------------------------------------------
+
+    //------------------- ล็อคเอ้า ----------------------
+    const signoutSuccess = () => {
+      navigation.navigate({name:'Login_Screen'})
+    }
+    const signoutUnsuccess = () => {
+      
+    }
+    // console.log(Info.profile)
+    const onSignoutPress = () => {
+      AuthModel.signOut(signoutSuccess,signoutUnsuccess)
+    }
+    //----------------------------------------------------
+
+    //--------------- ลูกค้า จำลองการส่งข้อมูล ---------------------
+    const addWorkSuccess = () => {
+
+    }
+    const addWorkUnsuccess = () => {
+
+    }
+    const onDemoPress = (info) => {
+      // console.log(info)
+      WorkModel.addWork(info,addWorkSuccess,addWorkUnsuccess)
+    }
+    //- ------------------------------------------------------
+
+    //----------------- ลูกค้า จำลองการยืนยัน ---------------------
+    const confirmCheckSuccess = () => {
+    }
+    const goUserConfirm = (info) => {
+      WorkModel.userConfirm(info)
+    }
 
     //ข้อมูลของผู้ใช้ ชื่อ นามสกุล ทะเบียน ตำแหน่งงาน
     const whatRole = (role) => {
@@ -306,15 +353,29 @@ export const Home = ({navigation,route}) => {
             <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}>
               <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>อู่รถใกล้ฉัน</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}>
-              <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>คิวของฉัน</Text>
+            <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}
+              onPress={()=>{
+                goUserCarPage(Info.profile)
+              }}
+            >
+              <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>รถ</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}>
-              <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>ติดตามความคืบหน้า</Text>
+            <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#0DD08A',borderRadius:5,justifyContent:'center',margin:5}}
+              onPress={()=>{
+                onDemoPress(Info.profile)
+              }}
+            >
+              <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>จำลองการส่งข้อมูล</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}>
-              <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>แก้ไขข้อมูลส่วนตัว</Text>
+            <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#0DD08A',borderRadius:5,justifyContent:'center',margin:5}}
+              onPress={()=>{
+                goUserConfirm(Info.profile)
+              }}
+            >
+              <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>จำลองการยืนยัน</Text>
             </TouchableOpacity>
+
+
           </View>
         )
       }
@@ -433,9 +494,13 @@ export const Home = ({navigation,route}) => {
       {whatAbility(Info.profile.role)}
 
 
-      <View style={{width:'100%',height:50,borderWidth:0,backgroundColor:'#69DBFF',justifyContent:'center',alignItems:'center',borderTopLeftRadius:50,borderTopRightRadius:50}}>
-        <TouchableOpacity activeOpacity={1} style={{width:80,height:80,borderWidth:1,backgroundColor:'#37CFFF',borderRadius:40,marginBottom:50,justifyContent:'center',alignItems:'center',borderColor:'#89E3FF'}}>
-          <Ionicons name="home" size={30} color="white" />
+      <View style={{width:'100%',height:50,borderWidth:0,backgroundColor:'#69DBFF',justifyContent:'center',alignItems:'center',borderTopLeftRadius:50,borderTopRightRadius:50,flexDirection:'row'}}>
+        <TouchableOpacity activeOpacity={1} style={{width:80,height:80,borderWidth:1,backgroundColor:'#FC3B3B',borderRadius:40,marginBottom:50,justifyContent:'center',alignItems:'center',borderColor:'#FF3030'}}
+          onPress={()=>{
+            onSignoutPress()
+          }}
+        >
+          <MaterialIcons name="logout" size={30} color="white" />
         </TouchableOpacity>
       </View>
     </View>

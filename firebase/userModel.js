@@ -73,6 +73,43 @@ export const getEmployee = (info,item,success,unsuccess) => {
     //     unsuccess(err)
     // })
 }
+export const editCar = (info,oldPlate,newCarInfo,success,unsuccess) => {
+    // console.log(oldPlate)
+    usersColl.where('UID','==',info.UID).get()
+    .then((snapshot)=>{
+        snapshot.forEach((doc)=>{
+            doc.data().CarModel.forEach((item)=>{
+                // console.log(item)
+                if(item.plate==oldPlate){
+                    // console.log(item.plate)
+                    // doc.data().CarModel.update({})
+                }
+            })
+        })
+    })
+}
+
+export const deleteCar = (info,car) => {
+    usersColl.where('UID','==',info.UID).get()
+    .then((snapshot)=>{
+        snapshot.forEach((doc)=>{
+            // console.log(doc.data())
+            
+        })
+    })
+}
+
+export const getCar = (info,success,unsuccess) => {
+    usersColl.where('UID','==',info.UID).get()
+    .then((snapshot)=>{
+        snapshot.forEach((doc)=>{
+            success(doc.data().CarModel)
+        })
+    })
+    .catch((err)=>{
+        unsuccess(err)
+    })
+}
 
 
 export const OwnerGetEmployee = (info,success,unsuccess) => {

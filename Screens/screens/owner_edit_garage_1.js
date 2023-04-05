@@ -172,7 +172,7 @@ export const Owner_Edit_Garage_1 = ({navigation,route}) => {
             <View style={{borderWidth:0,justifyContent:'center',alignItems:'center'}}>
                 <TouchableOpacity style={{borderWidth:0,width:150 ,height:50,backgroundColor:'#FFB156',justifyContent:'center',alignItems:'center',borderRadius:10}}
                     onPress={()=>{
-                        navigation.navigate({name:'AddLocation'})
+                        // navigation.navigate({name:'AddLocation'})
                     }}
                 >
                 <Text style={{borderWidth:0,fontSize:20,color:'white',fontFamily:'Sound-Rounded'}}>แก้ไขที่อยู่ร้าน</Text>

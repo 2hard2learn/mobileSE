@@ -37,10 +37,13 @@ import { Customer_Edit  } from '../screens/customer_edit'
 import { Customer_Home } from '../screens/customer_home'
 import { Customer_Map } from '../screens/customer_map'
 
+import { User_Car_1 } from '../screens/user_car_1'
+import { User_Car_2 } from '../screens/user_car_2'
+
 import { Head_Mechanic_Home } from '../screens/head_mechanic_home'
 
-import { AddLocation } from '../screens/AddLocation'
-import { MapScreen } from '../screens/MapScreen'
+// import { AddLocation } from '../screens/AddLocation'
+// import { MapScreen } from '../screens/MapScreen'
  
 const Stack = createNativeStackNavigator()
 
@@ -62,6 +65,9 @@ export const StackNav = () => {
             <Stack.Screen name="Customer_Edit" component={Customer_Edit} />
             <Stack.Screen name="Customer_Home" component={Customer_Home} />
             <Stack.Screen name="Customer_Map" component={Customer_Map} />
+
+            <Stack.Screen name="User_Car_1" component={User_Car_1} />
+            <Stack.Screen name="User_Car_2" component={User_Car_2} />
 
             <Stack.Screen name="Mechanic_Check_1" component={Mechanic_Check_1} />
             <Stack.Screen name="Mechanic_Check_2" component={Mechanic_Check_2} />
@@ -89,9 +95,9 @@ export const StackNav = () => {
 
             <Stack.Screen name="Cashier_Checkbill_1" component={Cashier_Checkbill_1} />
 
-            <Stack.Screen name="AddLocation" component={AddLocation}/>
-            <Stack.Screen name="MapScreen" component={MapScreen}/>
-            
+            {/* <Stack.Screen name="AddLocation" component={AddLocation}/>
+            <Stack.Screen name="MapScreen" component={MapScreen}/> */}
+
         </Stack.Navigator>
     )
 }

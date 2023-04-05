@@ -19,6 +19,66 @@ const usersColl = DB.collection('User')
 //             unsuccess(err)
 //         })
 // }
+export const addBill = (info,work,bill,success) => {
+    garagesColl.doc(info.garage).collection('Duty').doc(work.workId).update({bill:bill,status:'รอเช็คบิล'})
+    success()
+}
+
+
+export const userConfirm = (info) => {
+    garagesColl.doc('pxtdYRPgJ2zYgAOAQf1W').collection('Duty').get()
+    .then((snapshot)=>{
+        snapshot.forEach((doc)=>{
+            if(doc.data().status=='ตรวจสภาพแล้ว_รอลูกค้ายืนยัน' && doc.data().Name==info.Name && doc.data().LastName==info.LastName){
+                garagesColl.doc('pxtdYRPgJ2zYgAOAQf1W').collection('Duty').doc(doc.data().workId).update({status:'รอมอบหมายซ่อม',confirm_time:serverTimestamp()})
+            }
+        })
+    })
+}
+
+export const addWork = (info,success,unsuccess) => {
+    // console.log('xxxxxxxxxxxxxxxx')
+    let allDocId = []
+    garagesColl.doc('pxtdYRPgJ2zYgAOAQf1W').collection('Duty').get()
+    .then((snapshot)=>{
+        snapshot.forEach((doc)=>{
+            allDocId.push(doc.id)
+        })
+    })
+    garagesColl.doc('pxtdYRPgJ2zYgAOAQf1W').collection('Duty').add({
+        Name:info.Name,
+        LastName:info.LastName,
+        PhoneNumber:info.PhoneNumber,
+        dateIn:serverTimestamp(),
+        plate:'กน-1234',
+        status:'รอมอบหมายตรวจสภาพ',
+        symptom:'จำลองการส่งรถเข้าอู่',})
+    // let time=serverTimestamp()
+    // garagesColl.doc('px')
+    // console.log(time)
+    garagesColl.doc('pxtdYRPgJ2zYgAOAQf1W').collection('Duty').get()
+    .then((snapshot)=>{
+        snapshot.forEach((doc)=>{
+            if(doc.id in allDocId){
+
+            }
+            else{
+                garagesColl.doc('pxtdYRPgJ2zYgAOAQf1W').collection('Duty').doc(doc.id).update({workId:doc.id})
+                success()
+            }
+        })
+    })
+
+}
+
+
+
+
+
+
+
+
+
 export const returnWork = (info,workInfo,success) => {
     if(workInfo.status=='ตรวจสภาพแล้ว_รอยืนยัน'){
         garagesColl.doc(info.garage).collection('Duty').doc(workInfo.workId).update({status:'รอตรวจสภาพ'})

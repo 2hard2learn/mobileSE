@@ -13,6 +13,7 @@ import * as WorkModel from '../../firebase/workModel'
 
 export const Head_Mechanic_Setprice_2 = ({navigation,route}) => {
   const Info = useSelector((state) => state.auths)
+  let workInfo = route.params
 
   const goBoss_set_price_success = (data) =>{
     // console.log(data)
@@ -25,45 +26,217 @@ export const Head_Mechanic_Setprice_2 = ({navigation,route}) => {
     WorkModel.getWorks(info,'setprice',goBoss_set_price_success,goBoss_set_price_unsuccess)
   }
 
-  const [input,setInput] = useState()
 
-
-  const submit = () => {
-    // console.log(workInfo)
-    // console.log(info)
-    WorkModel.submitWorks(Info.profile,workInfo,input,'check')
+  const addBillSuccess = () => {
     navigation.navigate({name:'Home'})
+    Alert.alert('ทำรายการสำเร็จ')
   }
 
-
-  let list_product = []
-
-  const productPanel = (list_product) => {
-    return (
-        <FlatList
-            data={list_product}
-            renderItem={({item})=> renderCard(item)}
-        />
-    )
+  const onSubmitPress = (work) => {
+    WorkModel.addBill(Info.profile,work,product_list,addBillSuccess)
   }
-
-
-  const renderCard = (item) => {
-    return (
-        <View style={{width:'100%',height:40,borderWidth:0,borderRadius:10,backgroundColor:'white'}}>
-              <ScrollView>
-                <Text style={{borderWidth:0,fontSize:15,color:'gray',margin:10,fontFamily:'Sound-Rounded'}}>{workInfo.fix_info}</Text>
-              </ScrollView>
-        </View>
-      )
-  };
 
   const [product,setProduct] = useState('')
   const [price,setPrice] = useState('')
+  // const [product_list,setProduct_list] = useState()
+  const [product_list,setProduct_list] = useState([])
+  const addProduct = (product,price) => {
+    let total_product = 0
+    product_list.forEach((item)=>{
+      total_product = total_product + 1
+    })
+    if(total_product<4){
+      product_list.push({'title':product,'amount':price})
+    }
+    else{
+      Alert.alert('เกินจำนวนสูงสุดที่รับได้')
+    }
+    // console.log(product_list)
+    setProduct('')
+    setPrice('')
+  }
 
+  const productPanel = (product_list) => {
+    let total_product = 0
+    product_list.forEach((item)=>{
+      total_product = total_product + 1
+    })
+    if(total_product==0){
+      return 
+    }
+    if(total_product==1){
+      return (
+        <View style={{flexDirection:'row',marginTop:10,justifyContent:'space-around',alignItems:'center'}}>
+          <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>1.</Text>
+          <View style={{borderWidth:0,backgroundColor:'white',width:130,height:30,borderRadius:10,justifyContent:'center'}}>
+              <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
 
+              >{product_list[0].title}</Text>
+          </View>
+          <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>ราคา</Text>
+          <View style={{borderWidth:0,backgroundColor:'white',width:80,height:30,borderRadius:10,justifyContent:'center'}}>
+              <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
 
-  let workInfo = route.params
+              >{product_list[0].amount}</Text>
+          </View>
+        </View>
+      )
+    }
+    if(total_product==2){
+      return (
+        <View>
+          <View style={{flexDirection:'row',marginTop:10,justifyContent:'space-around',alignItems:'center',borderWidth:0}}>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>1.</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:130,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[0].title}</Text>
+            </View>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>ราคา</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:80,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[0].amount}</Text>
+            </View>
+          </View>
+          <View style={{flexDirection:'row',marginTop:5,justifyContent:'space-around',alignItems:'center',borderWidth:0}}>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>2.</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:130,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[1].title}</Text>
+            </View>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>ราคา</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:80,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[1].amount}</Text>
+            </View>
+          </View>
+        </View>
+      )
+    }
+    if(total_product==3){
+      return (
+        <View>
+          <View style={{flexDirection:'row',marginTop:10,justifyContent:'space-around',alignItems:'center',borderWidth:0}}>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>1.</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:130,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[0].title}</Text>
+            </View>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>ราคา</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:80,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[0].amount}</Text>
+            </View>
+          </View>
+          <View style={{flexDirection:'row',marginTop:5,justifyContent:'space-around',alignItems:'center',borderWidth:0}}>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>2.</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:130,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[1].title}</Text>
+            </View>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>ราคา</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:80,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[1].amount}</Text>
+            </View>
+          </View>
+          <View style={{flexDirection:'row',marginTop:5,justifyContent:'space-around',alignItems:'center',borderWidth:0}}>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>3.</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:130,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[2].title}</Text>
+            </View>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>ราคา</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:80,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[2].amount}</Text>
+            </View>
+          </View>
+        </View>
+      )
+    }
+    if(total_product==4){
+      return (
+        <View>
+          <View style={{flexDirection:'row',marginTop:10,justifyContent:'space-around',alignItems:'center',borderWidth:0}}>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>1.</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:130,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[0].title}</Text>
+            </View>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>ราคา</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:80,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[0].amount}</Text>
+            </View>
+          </View>
+          <View style={{flexDirection:'row',marginTop:5,justifyContent:'space-around',alignItems:'center',borderWidth:0}}>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>2.</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:130,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[1].title}</Text>
+            </View>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>ราคา</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:80,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[1].amount}</Text>
+            </View>
+          </View>
+          <View style={{flexDirection:'row',marginTop:5,justifyContent:'space-around',alignItems:'center',borderWidth:0}}>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>3.</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:130,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[2].title}</Text>
+            </View>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>ราคา</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:80,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[2].amount}</Text>
+            </View>
+          </View>
+          <View style={{flexDirection:'row',marginTop:5,justifyContent:'space-around',alignItems:'center',borderWidth:0}}>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>4.</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:130,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[3].title}</Text>
+            </View>
+            <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded'}}>ราคา</Text>
+            <View style={{borderWidth:0,backgroundColor:'white',width:80,height:30,borderRadius:10,justifyContent:'center'}}>
+                <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+                >{product_list[3].amount}</Text>
+            </View>
+          </View>
+        </View>
+      )
+    }
+    else{
+      return (
+        <View style={{borderWidth:0,backgroundColor:'white',width:130,height:30,borderRadius:10,justifyContent:'center'}}>
+              <Text style={{borderWidth:0,fontSize:14,color:'gray',fontFamily:'Sound-Rounded',marginLeft:5}}
+
+              ></Text>
+          </View>
+      )
+    }
+  }
+
 
   return (
     <View style={{flex:1,justifyContent:'space-between',paddingTop: Constants.statusBarHeight}}>
@@ -80,7 +253,7 @@ export const Head_Mechanic_Setprice_2 = ({navigation,route}) => {
         <Text style={{borderWidth:0,fontSize:25,color:'white',marginLeft:20,fontFamily:'Sound-Rounded'}}>ประเมินราคา</Text>
       </View>
 
-    <View style={{borderWidth:1,justifyContent:'center',alignItems:'center'}}>
+    <View style={{borderWidth:0,justifyContent:'center',alignItems:'center'}}>
        
       <View style={{width:'100%',borderWidth:0,justifyContent:'center',alignItems:'center',margin:10}}>
         <View style={{borderWidth:0,width:'90%',height:60,justifyContent:'center',borderTopLeftRadius:20,borderTopRightRadius:20,backgroundColor:'#05C3FF'}}>
@@ -134,28 +307,19 @@ export const Head_Mechanic_Setprice_2 = ({navigation,route}) => {
                         </View>
                     </View>
                     <View style={{borderWidth:0,justifyContent:'flex-end',marginLeft:10}}>
-                        <TouchableOpacity style={{borderWidth:0,width:60,height:30,marginRight:10,borderRadius:10,backgroundColor:'#FFB156',justifyContent:'center',alignItems:'center'}}>
+                        <TouchableOpacity style={{borderWidth:0,width:60,height:30,marginRight:10,borderRadius:10,backgroundColor:'#FFB156',justifyContent:'center',alignItems:'center'}}
+                          onPress={()=>{
+                            addProduct(product,price)
+                          }}
+                        >
                             <Text style={{borderWidth:0,fontSize:15,color:'white',fontFamily:'Sound-Rounded'}}>เพิ่ม</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-
-
-
-
-
-
-
-
-
-
-            <ScrollView style={{borderWidth:0,marginTop:10}}>
-            <View style={{width:'100%',height:40,borderWidth:0,borderRadius:10,backgroundColor:'white'}}>
-              <ScrollView>
-                <Text style={{borderWidth:0,fontSize:15,color:'gray',margin:10,fontFamily:'Sound-Rounded'}}>{workInfo.fix_info}</Text>
-              </ScrollView>
+            <View style={{borderWidth:0,}}>
+              {productPanel(product_list)}
             </View>
-            </ScrollView>
+          
           </View>
             
         </View>
@@ -163,7 +327,7 @@ export const Head_Mechanic_Setprice_2 = ({navigation,route}) => {
       <View style={{borderWidth:0,width:'90%',flexDirection:'row',justifyContent:'flex-end'}}>
         <TouchableOpacity style={{borderWidth:0,width:120,height:50,borderRadius:20,backgroundColor:'#00D662',justifyContent:'center',alignItems:'center'}}
             onPress={()=>{
-
+              onSubmitPress(workInfo)
             }}
         >
             <Text style={{borderWidth:0,fontSize:25,color:'white',fontFamily:'Sound-Rounded'}}>ยืนยัน</Text>

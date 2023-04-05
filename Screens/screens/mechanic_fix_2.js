@@ -65,7 +65,7 @@ export const Mechanic_Fix_2 = ({navigation,route}) => {
             <Text style={{borderWidth:0,fontSize:20,color:'white',fontFamily:'Sound-Rounded'}}>ผลการตรวจเช็ค</Text>
             <View style={{width:'100%',height:100,borderWidth:0,borderRadius:10,backgroundColor:'white'}}>
               <ScrollView>
-                <Text style={{borderWidth:0,fontSize:15,color:'gray',fontFamily:'Sound-Rounded',borderWidth:0,margin:10}}>{workInfo.check_result}</Text>
+                <Text style={{borderWidth:0,fontSize:15,color:'gray',fontFamily:'Sound-Rounded',borderWidth:0,margin:10}}>{workInfo.check_info}</Text>
               </ScrollView>
             </View>
           </View>
