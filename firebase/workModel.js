@@ -2,6 +2,7 @@ import { documentId, serverTimestamp } from "firebase/firestore";
 import firebaseApp from "./connect";
 import 'firebase/firestore'
 
+
 const DB = firebaseApp.firestore()
 const garagesColl = DB.collection('Garage')
 const usersColl = DB.collection('User')
@@ -19,6 +20,46 @@ const usersColl = DB.collection('User')
 //             unsuccess(err)
 //         })
 // }
+export const getBill = (info,success) => {
+    // console.log(info[0])
+    // console.log(info)
+    let garageDoc
+    let plate
+    info.CarModel.forEach((item)=>{
+        garageDoc=item.garage
+        plate=item.plate
+    })
+    // garageDoc = info.CarModel[0].garage
+    // plate = info.CarModel[0].plate
+    garagesColl.doc(garageDoc).collection('Duty').get()
+    .then((snapshot)=>{
+        let works = []
+        snapshot.forEach((doc)=>{
+            if(doc.data().Name==info.Name && doc.data().LastName==info.LastName && doc.data().plate==plate && doc.data().status=='รอเช็คบิล'){
+                works.push(doc.data())
+            }
+        })
+        success(works)
+    })
+    // console.log(list)
+    // console.log('ddddddddddddddddddddd')
+    // let works = []
+    // list.forEach((item)=>{
+    //     garagesColl.doc(item).collection('Duty').get()
+    //     .then((snapshot)=>{
+    //         let works = []
+    //         snapshot.forEach((doc)=>{
+    //             if(doc.data().Name==info.Name && doc.data().LastName==info.LastName && doc.data().status=='รอเช็คบิล'){
+    //                 works.push(doc.data())
+    //                 // console.log(doc.data())
+    //             }
+    //         })
+    //     })
+    // })
+    // console.log(works)
+}
+
+
 export const addBill = (info,work,bill,success) => {
     garagesColl.doc(info.garage).collection('Duty').doc(work.workId).update({bill:bill,status:'รอเช็คบิล'})
     success()
@@ -49,6 +90,7 @@ export const addWork = (info,success,unsuccess) => {
         Name:info.Name,
         LastName:info.LastName,
         PhoneNumber:info.PhoneNumber,
+        UID:info.UID,
         dateIn:serverTimestamp(),
         plate:'กน-1234',
         status:'รอมอบหมายตรวจสภาพ',

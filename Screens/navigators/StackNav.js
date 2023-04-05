@@ -40,6 +40,9 @@ import { Customer_Map } from '../screens/customer_map'
 import { User_Car_1 } from '../screens/user_car_1'
 import { User_Car_2 } from '../screens/user_car_2'
 
+import { User_Payment_1 } from '../screens/user_payment_1'
+import { User_Payment_2 } from '../screens/user_payment_2'
+
 import { Head_Mechanic_Home } from '../screens/head_mechanic_home'
 
 // import { AddLocation } from '../screens/AddLocation'
@@ -68,6 +71,9 @@ export const StackNav = () => {
 
             <Stack.Screen name="User_Car_1" component={User_Car_1} />
             <Stack.Screen name="User_Car_2" component={User_Car_2} />
+
+            <Stack.Screen name="User_Payment_1" component={User_Payment_1} />
+            <Stack.Screen name="User_Payment_2" component={User_Payment_2} />
 
             <Stack.Screen name="Mechanic_Check_1" component={Mechanic_Check_1} />
             <Stack.Screen name="Mechanic_Check_2" component={Mechanic_Check_2} />

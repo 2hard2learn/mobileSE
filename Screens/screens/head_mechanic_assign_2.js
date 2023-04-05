@@ -78,6 +78,24 @@ export const Head_Mechanic_Assign_2 = ({navigation,route}) => {
     <View style={{ padding: 8 }} />
   )
 
+  const whatDescription = (status) => {
+    if(status=='รอมอบหมายตรวจสภาพ'){
+      return 'อาการเบื้องต้น'
+    }
+    if(status=='รอมอบหมายซ่อม'){
+      return 'ผลการตรวจสภาพ'
+    }
+  }
+
+  const whatText = (status) => {
+    if(status=='รอมอบหมายตรวจสภาพ'){
+      return workInfo.symptom
+    }
+    if(status=='รอมอบหมายซ่อม'){
+      return workInfo.check_info
+    }
+  }
+
   return (
     <View style={{flex:1,justifyContent:'space-between',paddingTop: Constants.statusBarHeight}}>
 
@@ -102,10 +120,10 @@ export const Head_Mechanic_Assign_2 = ({navigation,route}) => {
         <View style={{borderWidth:0,width:'90%',height:150,justifyContent:'center',alignItems:'center',borderBottomLeftRadius:20,borderBottomRightRadius:20,backgroundColor:'#69DBFF'}}>
 
           <View style={{flex:1,borderWidth:0,width:'90%',justifyContent:'center'}}>
-            <Text style={{borderWidth:0,fontSize:20,color:'white',fontFamily:'Sound-Rounded'}}>รายละเอียด</Text>
+            <Text style={{borderWidth:0,fontSize:20,color:'white',fontFamily:'Sound-Rounded'}}>{whatDescription(workInfo.status)}</Text>
             <View style={{width:'100%',height:100,borderWidth:0,borderRadius:10,backgroundColor:'white'}}>
               <ScrollView>
-                <Text style={{borderWidth:0,fontSize:15,color:'gray',fontFamily:'Sound-Rounded',margin:10}}>{workInfo.symptom}</Text>
+                <Text style={{borderWidth:0,fontSize:15,color:'gray',fontFamily:'Sound-Rounded',margin:10}}>{whatText(workInfo.status)}</Text>
               </ScrollView>
             </View>
           </View>

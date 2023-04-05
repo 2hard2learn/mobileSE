@@ -240,6 +240,17 @@ export const Home = ({navigation,route}) => {
     const goUserConfirm = (info) => {
       WorkModel.userConfirm(info)
     }
+    //------------------------------------------------------
+
+    //------------------- ลูกค้า จำลองการจ่ายเงิน -----------------
+    const getBillSuccess = (data) => {
+      // console.log(data)
+      navigation.navigate({name:'User_Payment_1',params:data})
+    }
+
+    const goUserGetBill = (info) => {
+      WorkModel.getBill(info,getBillSuccess)
+    }
 
     //ข้อมูลของผู้ใช้ ชื่อ นามสกุล ทะเบียน ตำแหน่งงาน
     const whatRole = (role) => {
@@ -350,29 +361,40 @@ export const Home = ({navigation,route}) => {
       if(role=='user'){
         return (
           <View style={{flex:1,borderWidth:0,alignItems:'center'}}>
-            <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}>
-              <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>อู่รถใกล้ฉัน</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}
+            <TouchableOpacity style={{borderWidth:0,width:330,height:65,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}
               onPress={()=>{
                 goUserCarPage(Info.profile)
               }}
             >
               <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>รถ</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#0DD08A',borderRadius:5,justifyContent:'center',margin:5}}
+            <TouchableOpacity style={{borderWidth:0,width:330,height:65,backgroundColor:'#0DD08A',borderRadius:5,justifyContent:'center',margin:5}}
               onPress={()=>{
                 onDemoPress(Info.profile)
               }}
             >
               <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>จำลองการส่งข้อมูล</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{borderWidth:0,width:330,height:75,backgroundColor:'#0DD08A',borderRadius:5,justifyContent:'center',margin:5}}
+            <TouchableOpacity style={{borderWidth:0,width:330,height:65,backgroundColor:'#0DD08A',borderRadius:5,justifyContent:'center',margin:5}}
               onPress={()=>{
                 goUserConfirm(Info.profile)
               }}
             >
               <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>จำลองการยืนยัน</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{borderWidth:0,width:330,height:65,backgroundColor:'#0DD08A',borderRadius:5,justifyContent:'center',margin:5}}
+              onPress={()=>{
+                  goUserGetBill(Info.profile)
+              }}
+            >
+              <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>จำลองการจ่ายเงิน</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{borderWidth:0,width:330,height:65,backgroundColor:'#FFB156',borderRadius:5,justifyContent:'center',margin:5}}
+              onPress={()=>{
+                  goUserGetBill(Info.profile)
+              }}
+            >
+              <Text style={{fontFamily:'Sound-Rounded',fontSize:20,color:'white',marginLeft:10}}>อู่รถใกล้ฉัน</Text>
             </TouchableOpacity>
 
 

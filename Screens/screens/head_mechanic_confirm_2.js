@@ -111,7 +111,7 @@ export const Head_Mechanic_Confirm_2 = ({navigation,route}) => {
             return 'ส่งให้ลูกค้า'
         }
         if(work.status=='ซ่อมแล้ว_รอยืนยัน'){
-            return 'เช็คบิล'
+            return 'รอลงราคา'
         }
     }
     if(where=='ยกเลิก'){
