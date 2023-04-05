@@ -78,8 +78,8 @@ export const User_Payment_1 = ({navigation,route}) => {
       <View style={{height:80,backgroundColor:'#05C3FF',alignItems:'center',flexDirection:'row'}}>
         <TouchableOpacity style={{width:50,height:50,backgroundColor:'#FFA133',marginLeft:10,borderRadius:10,justifyContent:'center',alignItems:'center'}}
           onPress={()=>{
-            // navigation.navigate({name:'Home'})
-            console.log(Work)
+            navigation.navigate({name:'Home'})
+            // console.log(Work)
           }}
         >
           <Ionicons name="arrow-back" size={24} color="white" />
