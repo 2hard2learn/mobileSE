@@ -242,7 +242,7 @@ export const Home = ({navigation,route}) => {
     }
     //------------------------------------------------------
 
-    //------------------- ลูกค้า จำลองการจ่ายเงิน -----------------
+    //------------------- ลูกค้า จำลองการจ่ายเงิน -----------3------
     const getBillSuccess = (data) => {
       // console.log(data)
       navigation.navigate({name:'User_Payment_1',params:data})
